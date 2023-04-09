@@ -1,20 +1,36 @@
-import { IProduct, getProducts } from "@/redux/slices/productSlice";
+import { slugify } from "@/libs/utils";
+import { useAppSelector } from "@/redux/hooks";
+import { getCategories } from "@/redux/slices/categorySlice";
+import { getProducts } from "@/redux/slices/productSlice";
 import getStore, { RootState, selectFilteredProduct } from "@/redux/store";
-import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
-  const dispatch = useDispatch();
-
-  const products = useSelector(selectFilteredProduct);
-
-  console.log(products);
+  const products = useAppSelector(selectFilteredProduct);
 
   return (
     <main>
       <h1>Home</h1>
-      <ul>
+      <ul className="grid grid-cols-6 gap-5">
         {products.slice(0, 10).map((product) => (
-          <li>{product.id}</li>
+          <li key={product.id} className="flex flex-col">
+            <Link href={`/products/${slugify(product.title)}`}>
+              <div className="bg-white relative aspect-square">
+                <Image
+                  fill
+                  alt={product.title}
+                  src={product.image}
+                  className="object-contain"
+                  sizes="100%" //???
+                  priority
+                />
+              </div>
+
+              <h3>{product.title}</h3>
+              {/* <small>{price || getCurrencyFormat("USD", product.price)}</small> */}
+            </Link>
+          </li>
         ))}
       </ul>
     </main>
@@ -23,7 +39,9 @@ export default function Home() {
 
 export async function getServerSideProps() {
   const store = getStore();
-  await store.dispatch(getProducts() as any); // ⚠️ Argument of type 'AsyncThunkAction<any, void, AsyncThunkConfig>' is not assignable to parameter of type 'AnyAction'.
+  await store.dispatch(getProducts());
+  await store.dispatch(getCategories());
+
   return {
     props: {
       initialState: store.getState(),

@@ -28,8 +28,7 @@ const initialState: IProductState = {
 
 export const getProducts = createAsyncThunk(
   "products/getProducts",
-  async () =>
-    await (await await fetch("https://fakestoreapi.com/products")).json()
+  async () => await (await fetch("https://fakestoreapi.com/products")).json()
 );
 
 export const productSlice = createSlice({
