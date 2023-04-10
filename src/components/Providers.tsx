@@ -62,8 +62,6 @@ function CurrencyProvider({ children, setInitialState }: ICurrencyProvider) {
   //   ]);
 
   useEffect(() => {
-    console.log("reduxCurrencyState:::::", reduxCurrencyState);
-    console.log("localstorage:::::", localStorage.getItem("currency"));
     if (!localStorage) return;
 
     const localStorageCurrency = localStorage.getItem(
@@ -73,18 +71,27 @@ function CurrencyProvider({ children, setInitialState }: ICurrencyProvider) {
     if (localStorageCurrency) {
       console.log("localStorageCurrency exists;;;;", localStorageCurrency);
       setLocalStorageCurrencyState(reduxCurrencyState);
-
       dispatch(setCurrency(localStorageCurrency));
     } else {
       localStorage.setItem("currency", reduxCurrencyState);
       setLocalStorageCurrencyState(reduxCurrencyState);
     }
-  }, [reduxCurrencyState]);
+  }, [
+    reduxCurrencyState,
+    setLocalStorageCurrencyState,
+    dispatch,
+    reduxCurrencyState,
+  ]);
 
-  useEffect(() => {
-    console.log("LOCAL::::", localStorageCurrencyState);
-    dispatch(setCurrency(localStorageCurrencyState));
-  }, [localStorageCurrencyState]);
+  // useEffect(() => {
+  //   console.log("LOCAL::::", localStorageCurrencyState);
+  //   dispatch(setCurrency(localStorageCurrencyState));
+  // }, [localStorageCurrencyState]);
+
+  // useEffect(() => {
+  //   console.log("reduxCurrencyState:::::", reduxCurrencyState);
+  //   console.log("localstorage:::::", localStorage.getItem("currency"));
+  // }, [reduxCurrencyState]);
 
   return <>{children}</>;
 }
@@ -101,7 +108,7 @@ export default function Providers({ children, pageProps }: IProvidersProps) {
   const store = getStore(initialState);
 
   return (
-    <Provider store={store}>
+    <Provider store={store} serverState={initialState}>
       <CurrencyProvider setInitialState={setInitialState}>
         {children}
       </CurrencyProvider>

@@ -1,7 +1,6 @@
 import { slugify } from "@/libs/utils";
 import { useAppSelector } from "@/redux/server/hooks";
 import { getCategories } from "@/redux/server/slices/categorySlice";
-import { setCurrency } from "@/redux/server/slices/currencySlice";
 import { getProducts } from "@/redux/server/slices/productSlice";
 import getStore, {
   RootState,

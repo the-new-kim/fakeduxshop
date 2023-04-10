@@ -1,6 +1,6 @@
 import { Middleware } from "redux";
-import { RootState } from "../server/store";
-import { TCurrency, setCurrency } from "../server/slices/currencySlice";
+import { RootState } from "../store";
+import { TCurrency, setCurrency } from "../slices/currencySlice";
 
 const currencyMiddlware: Middleware<{}, RootState> =
   (store) => (next) => (action) => {
