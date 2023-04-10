@@ -2,6 +2,7 @@ import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import productSlice from "@/redux/slices/productSlice";
 import categorySlice from "@/redux/slices/categorySlice";
 import currencySlice from "./slices/currencySlice";
+import currencyMiddlware from "./middlewares/currencyMiddleware";
 
 export interface RootState {
   products: ReturnType<typeof productSlice.reducer>;
@@ -30,14 +31,17 @@ const reducer = {
 
 let store = configureStore({
   reducer,
+  //   middleware: (getDefaultMiddlware) => getDefaultMiddlware(),
 });
 
 const getStore = (incomingPreloadState?: RootState) => {
-  console.log("INCOMING PRELOAD STATE::::", incomingPreloadState);
   if (incomingPreloadState) {
     store = configureStore({
       reducer,
       preloadedState: incomingPreloadState,
+      //   middleware: (getDefaultMiddlware) =>
+      //     getDefaultMiddlware().concat(currencyMiddlware),
+      // 👆 ⚠️ Typescript Error
     });
   }
   return store;

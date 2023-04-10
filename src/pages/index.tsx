@@ -1,6 +1,7 @@
 import { slugify } from "@/libs/utils";
 import { useAppSelector } from "@/redux/hooks";
 import { getCategories } from "@/redux/slices/categorySlice";
+import { setCurrency } from "@/redux/slices/currencySlice";
 import { getProducts } from "@/redux/slices/productSlice";
 import getStore, { RootState, selectFilteredProduct } from "@/redux/store";
 import Image from "next/image";

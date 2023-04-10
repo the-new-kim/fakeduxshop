@@ -2,35 +2,31 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { currencies, setCurrency } from "@/redux/slices/currencySlice";
 
 import type { TCurrency } from "@/redux/slices/currencySlice";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 
 export default function CurrencySelector() {
-  const [currentCurrency, setCurrentCurrency] = useState<TCurrency>();
+  // const [selectedCurrency, setSelectedCurrency] = useState<TCurrency>(
+  //   () => (localStorage?.getItem("currency") as TCurrency) || "USD"
+  // );
   const dispatch = useAppDispatch();
 
   const currencyState = useAppSelector((state) => state.currency.currency);
 
-  useEffect(() => {
-    setCurrentCurrency(currencyState);
-  }, [currencyState]);
-
-  console.log(currencyState);
+  const onChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const { value } = event.target;
+    // setSelectedCurrency(value as TCurrency);
+    dispatch(setCurrency(value as TCurrency));
+  };
 
   return (
     <>
       <select
         className="text-black h-6"
-        defaultValue={currentCurrency}
-        onChange={(e) =>
-          dispatch(setCurrency(e.currentTarget.value as TCurrency))
-        }
+        defaultValue={currencyState}
+        onChange={onChange}
       >
         {currencies.map((currency) => (
-          <option
-            value={currency}
-            key={currency}
-            selected={currencyState === currency}
-          >
+          <option value={currency} key={currency}>
             {currency}
           </option>
         ))}
