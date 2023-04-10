@@ -1,8 +1,7 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import productSlice from "@/redux/server/slices/productSlice";
-import categorySlice from "@/redux/server/slices/categorySlice";
+import productSlice from "@/redux/slices/productSlice";
+import categorySlice from "@/redux/slices/categorySlice";
 import currencySlice from "./slices/currencySlice";
-// import currencyMiddlware from "./middlewares/currencyMiddleware";
 
 export interface RootState {
   products: ReturnType<typeof productSlice.reducer>;
@@ -18,10 +17,6 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   unknown,
   Action<string>
 >;
-
-export const selectSearch = (state: RootState) => state.products.search;
-export const selectFilteredProduct = (state: RootState) =>
-  state.products.filteredProducts;
 
 const reducer = {
   products: productSlice.reducer,

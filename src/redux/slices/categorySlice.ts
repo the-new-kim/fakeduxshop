@@ -13,13 +13,13 @@ const initialState: ICategoryState = {
 };
 
 export const getCategories = createAsyncThunk(
-  "categories/getCategories",
+  "categorySlice/getCategories",
   async () =>
     await (await fetch("https://fakestoreapi.com/products/categories")).json()
 );
 
 export const categorySlice = createSlice({
-  name: "categories",
+  name: "categorySlice",
   initialState,
   reducers: {
     setCategories(state, action: PayloadAction<string>) {},

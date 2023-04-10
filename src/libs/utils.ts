@@ -1,10 +1,8 @@
-import { TCurrency } from "@/redux/server/slices/currencySlice";
+import { TCurrency } from "@/redux/slices/currencySlice";
 
-export function cls(...classnames: string[]) {
-  return classnames.join(" ");
-}
+export const cls = (...classnames: string[]) => classnames.join(" ");
 
-export function errorMessage(error: any) {
+export const errorMessage = (error: any) => {
   let message;
   if (error instanceof Error) {
     message = error.message;
@@ -12,7 +10,7 @@ export function errorMessage(error: any) {
     message = error + "";
   }
   return `Error: ${message}`;
-}
+};
 
 export const getBaseUrl = () =>
   process.env.NODE_ENV === "production"

@@ -1,4 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { RootState } from "../store";
 
 export interface IProduct {
   id: number;
@@ -27,12 +28,12 @@ const initialState: IProductState = {
 };
 
 export const getProducts = createAsyncThunk(
-  "products/getProducts",
+  "productSlice/getProducts",
   async () => await (await fetch("https://fakestoreapi.com/products")).json()
 );
 
 export const productSlice = createSlice({
-  name: "products",
+  name: "productSlice",
   initialState,
   reducers: {
     setSearch(state, action: PayloadAction<string>) {
@@ -58,6 +59,11 @@ export const productSlice = createSlice({
       });
   },
 });
+
+export const selectSearch = (state: RootState) => state.products.search;
+export const selectFilteredProduct = (state: RootState) =>
+  state.products.filteredProducts;
+
 export const { setSearch } = productSlice.actions;
 
 export default productSlice;

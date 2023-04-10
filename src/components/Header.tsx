@@ -11,9 +11,9 @@ export default function Header() {
   return (
     <header className="w-full p-5 flex-col [&>*]:w-full [&>*]:flex [&>*]:justify-between [&>*]:items-center">
       <div>
-        <Link href="/">Redux Shop</Link>
+        <Link href="/">Fakestore</Link>
         <nav>
-          <ul className="flex [&>*]:ml-3">
+          <ul className="flex [&>*]:ml-3 items-center">
             <li>
               <MagnifyingGlass />
             </li>
@@ -32,7 +32,7 @@ export default function Header() {
           </ul>
         </nav>
       </div>
-      <div>
+      <div className="bg-slate-300">
         <nav>
           <ul>category</ul>
         </nav>
