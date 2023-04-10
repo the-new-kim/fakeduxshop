@@ -1,9 +1,12 @@
 import { slugify } from "@/libs/utils";
-import { useAppSelector } from "@/redux/hooks";
-import { getCategories } from "@/redux/slices/categorySlice";
-import { setCurrency } from "@/redux/slices/currencySlice";
-import { getProducts } from "@/redux/slices/productSlice";
-import getStore, { RootState, selectFilteredProduct } from "@/redux/store";
+import { useAppSelector } from "@/redux/server/hooks";
+import { getCategories } from "@/redux/server/slices/categorySlice";
+import { setCurrency } from "@/redux/server/slices/currencySlice";
+import { getProducts } from "@/redux/server/slices/productSlice";
+import getStore, {
+  RootState,
+  selectFilteredProduct,
+} from "@/redux/server/store";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -38,7 +41,7 @@ export default function Home() {
   );
 }
 
-export async function getServerSideProps() {
+export async function getStaticProps() {
   const store = getStore();
   await store.dispatch(getProducts());
   await store.dispatch(getCategories());

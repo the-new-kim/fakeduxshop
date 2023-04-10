@@ -1,8 +1,8 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import productSlice from "@/redux/slices/productSlice";
-import categorySlice from "@/redux/slices/categorySlice";
+import productSlice from "@/redux/server/slices/productSlice";
+import categorySlice from "@/redux/server/slices/categorySlice";
 import currencySlice from "./slices/currencySlice";
-import currencyMiddlware from "./middlewares/currencyMiddleware";
+// import currencyMiddlware from "./middlewares/currencyMiddleware";
 
 export interface RootState {
   products: ReturnType<typeof productSlice.reducer>;

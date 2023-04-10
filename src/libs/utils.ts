@@ -1,4 +1,4 @@
-import { TCurrency } from "@/redux/slices/currencySlice";
+import { TCurrency } from "@/redux/server/slices/currencySlice";
 
 export function cls(...classnames: string[]) {
   return classnames.join(" ");
