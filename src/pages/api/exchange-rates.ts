@@ -27,7 +27,7 @@ async function handler(
   ).json();
 
   if (!data.success) {
-    throw new Error("server error");
+    throw new Error("500");
   }
 
   res.status(200).json({ ok: true, data });

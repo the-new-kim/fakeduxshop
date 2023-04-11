@@ -1,3 +1,4 @@
+import { getProductById } from "@/libs/api";
 import withHandler from "@/libs/server/withHandler";
 import { IProduct } from "@/libs/types";
 
@@ -16,9 +17,7 @@ async function handler(
     query: { id },
   } = req;
 
-  const data: IProduct = await (
-    await fetch(`https://fakestoreapi.com/products/${id}`)
-  ).json();
+  const data: IProduct = await getProductById(id as string);
 
   res.status(200).json({ ok: true, data });
 }

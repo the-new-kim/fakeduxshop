@@ -1,3 +1,4 @@
+import { getProducts } from "@/libs/api";
 import withHandler from "@/libs/server/withHandler";
 import { IProduct } from "@/libs/types";
 
@@ -12,10 +13,7 @@ async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ProductResponse>
 ) {
-  const data: IProduct[] = await (
-    await fetch(`https://fakestoreapi.com/products/`)
-  ).json();
-
+  const data: IProduct[] = await getProducts();
   res.status(200).json({ ok: true, data });
 }
 

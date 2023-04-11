@@ -12,11 +12,6 @@ export const errorMessage = (error: any) => {
   return `Error: ${message}`;
 };
 
-export const getBaseUrl = () =>
-  process.env.NODE_ENV === "production"
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
-
 export const getCurrencyFormat = (currency: TCurrency, formatValue: number) =>
   new Intl.NumberFormat("en-US", {
     style: "currency",

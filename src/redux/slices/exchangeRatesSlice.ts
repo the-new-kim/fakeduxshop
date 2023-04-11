@@ -94,18 +94,3 @@ const exchangeRatesSlice = createSlice({
 
 export const { setExchangeRates } = exchangeRatesSlice.actions;
 export default exchangeRatesSlice.reducer;
-
-// {
-//   ok: true,
-//   data: {
-//   success: true,
-//   timestamp: 1681176963,
-//   base: "USD",
-//   date: "2023-04-11",
-//   rates: {
-//   GBP: 0.80718,
-//   JPY: 133.620993,
-//   EUR: 0.92011
-//   }
-//   }
-//   }

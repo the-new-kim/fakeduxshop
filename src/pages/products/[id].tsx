@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import ProductDetail from "@/components/ProductDetail";
 import ProductDetailTemplate from "@/components/ProductDetailTemplate";
 import { Skeleton } from "@/components/Skeleton";
+import { getProductById } from "@/libs/api";
 import { SITE_TITLE } from "@/libs/fakeData";
 import type { IPageProps, IProduct, ISEO } from "@/libs/types";
 
@@ -70,9 +71,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
 
   try {
-    const product: IProduct = await (
-      await fetch(`https://fakestoreapi.com/products/${context.params.id}`)
-    ).json();
+    const product: IProduct = await getProductById(context.params.id as string);
 
     const SEO: ISEO = {
       title: {

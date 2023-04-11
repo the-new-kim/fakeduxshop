@@ -15,12 +15,10 @@
     "@types/react": "18.0.33",
     "@types/react-dom": "18.0.11",
     "autoprefixer": "10.4.14",
-    "currency-symbol": "^1.0.6",
     "currency-symbol-map": "^5.1.0",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
     "framer-motion": "^10.11.2",
-    "js-cookie": "^3.0.1",
     "next": "13.3.0",
     "postcss": "8.4.21",
     "react": "18.2.0",
@@ -30,8 +28,5 @@
     "sharp": "^0.32.0",
     "tailwindcss": "3.3.1",
     "typescript": "5.0.4"
-  },
-  "devDependencies": {
-    "@types/js-cookie": "^3.0.3"
   }
 }

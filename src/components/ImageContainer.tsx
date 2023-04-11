@@ -28,42 +28,34 @@ export default function ImageContainer({
         <Heart weight="thin" />
       </div> */}
       <div
-        className={`w-full relative aspect-square group-hover:scale-105 transition-transform duration-300 ${cls(
-          aspect === "square"
-            ? "aspect-square"
-            : aspect === "video"
-            ? "aspect-video"
-            : "aspect-auto"
-        )}`}
+        className={`w-full relative aspect-square group-hover:scale-105 transition-transform duration-300 flex justify-center items-center `}
       >
         <Image
-          fill
           alt={alt}
           src={src}
-          className={cls(
+          className={`w-full h-auto
+          ${cls(
             objectFit === "contain"
               ? "object-contain"
               : objectFit === "cover"
               ? "object-cover"
               : "object-fill"
+          )} 
+          
+          ${cls(
+            aspect === "square"
+              ? "aspect-square"
+              : aspect === "video"
+              ? "aspect-video"
+              : "aspect-auto"
           )}
-          sizes="100%" //???
+          `}
+          width="0"
+          height="0"
+          sizes="100vw"
           priority
         />
       </div>
     </div>
   );
-}
-
-{
-  /* <div className="bg-white relative aspect-square">
-<Image
-  fill
-  alt={product.title}
-  src={product.image}
-  className="object-contain"
-  sizes="100%" //???
-  priority
-/>
-</div> */
 }

@@ -40,7 +40,7 @@ export default function ProductDetail({
         <ImageContainer
           src={product.image}
           alt={product.title}
-          className="sm:sticky sm:top-5 h-auto z-40"
+          className="sm:sticky sm:top-5 h-auto z-40 max-h-[calc(100vh-2.5rem)]"
         />
         <div>
           {/* HEADER */}

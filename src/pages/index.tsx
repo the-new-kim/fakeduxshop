@@ -1,6 +1,7 @@
 import Heading from "@/components/Heading";
 import Layout from "@/components/Layout";
 import ProductList from "@/components/ProductList";
+import { getProducts } from "@/libs/api";
 import { SITE_TITLE } from "@/libs/fakeData";
 import { IPageProps, IProduct, ISEO } from "@/libs/types";
 
@@ -22,9 +23,7 @@ export default function Home({ products, SEO }: IHomeProps) {
 }
 
 export async function getStaticProps() {
-  const products = await (
-    await fetch("https://fakestoreapi.com/products")
-  ).json();
+  const products = await getProducts();
 
   const SEO: ISEO = {
     title: {
