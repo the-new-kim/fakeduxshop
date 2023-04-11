@@ -41,7 +41,7 @@ export default function Layout({
               {children}
             </motion.main>
           </AnimatePresence>
-          <Footer />
+          <Footer siteTitle={siteTitle} />
         </div>
       </div>
     </>
