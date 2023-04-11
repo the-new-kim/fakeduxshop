@@ -1,55 +1,41 @@
-import { slugify } from "@/libs/utils";
-import { useAppSelector } from "@/redux/hooks";
-import { getCategories } from "@/redux/slices/categorySlice";
-import { getProducts } from "@/redux/slices/productSlice";
+import Heading from "@/components/Heading";
+import Layout from "@/components/Layout";
+import ProductList from "@/components/ProductList";
+import { SITE_TITLE } from "@/libs/fakeData";
+import { IPageProps, IProduct, ISEO } from "@/libs/types";
 
-import { selectFilteredProduct } from "@/redux/slices/productSlice";
-import getStore from "@/redux/store";
-import Image from "next/image";
-import Link from "next/link";
+interface IHomeProps extends IPageProps {
+  products: IProduct[];
+}
 
-export default function Home() {
-  const products = useAppSelector(selectFilteredProduct);
-  const pending = useAppSelector((state) => state.products.pending);
-
-  console.log(pending);
-
+export default function Home({ products, SEO }: IHomeProps) {
   return (
-    <main>
-      <h1>Home</h1>
-      <ul className="grid grid-cols-6 gap-5">
-        {products.slice(0, 10).map((product) => (
-          <li key={product.id} className="flex flex-col">
-            <Link href={`/products/${product.id}`} prefetch={false}>
-              <div className="bg-white relative aspect-square">
-                <Image
-                  fill
-                  alt={product.title}
-                  src={product.image}
-                  className="object-contain"
-                  sizes="100%" //???
-                  priority
-                />
-              </div>
-
-              <h3>{product.title}</h3>
-              {/* <small>{price || getCurrencyFormat("USD", product.price)}</small> */}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </main>
+    <Layout SEO={SEO}>
+      <main>
+        <Heading tagName="h3" className="mb-5">
+          Top 10 Products
+        </Heading>
+        <ProductList products={products.slice(0, 10)} />
+      </main>
+    </Layout>
   );
 }
 
 export async function getStaticProps() {
-  const store = getStore();
-  await store.dispatch(getProducts());
-  await store.dispatch(getCategories());
+  const products = await (
+    await fetch("https://fakestoreapi.com/products")
+  ).json();
+
+  const SEO: ISEO = {
+    title: {
+      siteTitle: SITE_TITLE,
+    },
+  };
 
   return {
     props: {
-      initialState: store.getState(),
+      products,
+      SEO,
     },
   };
 }

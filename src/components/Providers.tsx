@@ -1,50 +1,36 @@
-import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import getStore, { RootState } from "@/redux/store";
-import { useCallback, useEffect } from "react";
+import { useAppDispatch } from "@/redux/hooks";
+import { useEffect } from "react";
 import { Provider } from "react-redux";
-import { setCurrency } from "@/redux/slices/currencySlice";
-
+import { initCurrency } from "@/redux/slices/currencySlice";
 import type { ReactNode } from "react";
-import type { TCurrency } from "@/redux/slices/currencySlice";
+import store from "@/redux/store";
+import {
+  getExchangeRates,
+  setExchangeRates,
+} from "@/redux/slices/exchangeRatesSlice";
+import { initCart } from "@/redux/slices/cartSlice";
 
 interface IProviderProps {
   children: ReactNode;
 }
 
-function CurrencyProvider({ children }: IProviderProps) {
-  const reduxCurrencyState = useAppSelector((state) => state.currency.currency);
+function StateInitializer({ children }: IProviderProps) {
   const dispatch = useAppDispatch();
 
-  const initCurrency = useCallback(() => {
-    if (!localStorage) return;
-    const localStorageCurrency = localStorage.getItem(
-      "currency"
-    ) as TCurrency | null;
-
-    if (localStorageCurrency) {
-      dispatch(setCurrency(localStorageCurrency));
-    } else {
-      localStorage.setItem("currency", reduxCurrencyState);
-    }
-  }, [reduxCurrencyState, dispatch]);
-
   useEffect(() => {
-    initCurrency();
-  }, [reduxCurrencyState, dispatch, initCurrency]);
+    dispatch(initCurrency());
+    dispatch(getExchangeRates());
+    dispatch(setExchangeRates());
+    dispatch(initCart());
+  }, [dispatch]);
 
   return <>{children}</>;
 }
 
-interface IProvidersProps extends IProviderProps {
-  initialState?: RootState;
-}
-
-export default function Providers({ children, initialState }: IProvidersProps) {
-  const store = getStore(initialState);
-
+export default function Providers({ children }: IProviderProps) {
   return (
-    <Provider store={store} serverState={initialState}>
-      <CurrencyProvider>{children}</CurrencyProvider>
+    <Provider store={store}>
+      <StateInitializer>{children}</StateInitializer>
     </Provider>
   );
 }

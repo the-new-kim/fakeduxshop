@@ -8,10 +8,8 @@ import { RootState } from "@/redux/store";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <Providers initialState={pageProps.initialState as RootState}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+    <Providers>
+      <Component {...pageProps} />
     </Providers>
   );
 }

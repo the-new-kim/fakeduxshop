@@ -1,43 +1,59 @@
-import { useAppSelector } from "@/redux/hooks";
-import { getCategories } from "@/redux/slices/categorySlice";
-import {
-  IProduct,
-  getProducts,
-  selectFilteredProduct,
-} from "@/redux/slices/productSlice";
-import getStore from "@/redux/store";
+import Layout from "@/components/Layout";
+import ProductDetail from "@/components/ProductDetail";
+import ProductDetailTemplate from "@/components/ProductDetailTemplate";
+import { Skeleton } from "@/components/Skeleton";
+import { SITE_TITLE } from "@/libs/fakeData";
+import type { IPageProps, IProduct, ISEO } from "@/libs/types";
+
 import { GetStaticProps } from "next";
-import Image from "next/image";
+
 import { useRouter } from "next/router";
 
-interface IProductPageProps {
+interface IProductPageProps extends IPageProps {
   product: IProduct;
+  relatedProducts: IProduct[];
 }
 
-export default function ProductPage({ product }: IProductPageProps) {
+export default function ProductPage({
+  product,
+  SEO,
+  relatedProducts,
+}: IProductPageProps) {
   const router = useRouter();
 
-  console.log("IS FALLBACK::::", router.isFallback);
-
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return (
+      <Layout
+        SEO={{
+          title: {
+            siteTitle: SITE_TITLE,
+            pageTitle: "Loading...",
+          },
+        }}
+      >
+        <ProductDetailTemplate>
+          <div>
+            <Skeleton className="h-[40vh] sm:h-[80vh]" />
+          </div>
+          <div>
+            <div className="mb-10">
+              <Skeleton />
+            </div>
+            <div className="[&>*]:mb-3">
+              <Skeleton />
+              <Skeleton />
+              <Skeleton />
+            </div>
+          </div>
+        </ProductDetailTemplate>
+      </Layout>
+    );
   }
 
   return (
-    <div>
-      <h1>{product?.title}</h1>
-      <div>{product?.description}</div>
-      <div className="bg-white relative aspect-square">
-        <Image
-          fill
-          alt={product.title}
-          src={product.image}
-          className="object-contain"
-          sizes="100%" //???
-          priority
-        />
-      </div>
-    </div>
+    <Layout SEO={SEO}>
+      <ProductDetail product={product} relatedProducts={relatedProducts} />
+    </Layout>
   );
 }
 
@@ -53,24 +69,33 @@ export const getStaticProps: GetStaticProps = async (context) => {
     return { props: {} };
   }
 
-  // console.log(context.params.id);
-
-  // const store = getStore();
-  // await store.dispatch(getProducts());
-  // await store.dispatch(getCategories());
-
   try {
-    const product = await (
+    const product: IProduct = await (
       await fetch(`https://fakestoreapi.com/products/${context.params.id}`)
+    ).json();
+
+    const SEO: ISEO = {
+      title: {
+        siteTitle: SITE_TITLE,
+        pageTitle: product.title,
+      },
+    };
+
+    const relatedProducts: IProduct[] = await (
+      await fetch(
+        `https://fakestoreapi.com/products/category/${product.category}`
+      )
     ).json();
 
     return {
       props: {
-        // initialState: store.getState(),
         product,
+        relatedProducts,
+        SEO,
       },
     };
   } catch (error) {
+    console.log(error);
     return {
       notFound: true,
     };

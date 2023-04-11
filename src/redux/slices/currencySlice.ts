@@ -5,6 +5,8 @@ export const currencies = ["USD", "JPY", "EUR", "GBP"] as const; //📝 REF:::: 
 
 export type TCurrency = typeof currencies[number];
 
+const CURRENCY = "currency";
+
 interface ICurrencyState {
   currency: TCurrency;
 }
@@ -17,9 +19,18 @@ const currencySlice = createSlice({
   reducers: {
     setCurrency(state, action: PayloadAction<ICurrencyState["currency"]>) {
       state.currency = action.payload;
+      localStorage.setItem(CURRENCY, action.payload);
+    },
+    initCurrency(state) {
+      const localStorageCurrency = localStorage.getItem(CURRENCY) as TCurrency;
+      if (localStorageCurrency) {
+        state.currency = localStorageCurrency;
+      } else {
+        localStorage.setItem(CURRENCY, state.currency);
+      }
     },
   },
 });
 
-export const { setCurrency } = currencySlice.actions;
-export default currencySlice;
+export const { setCurrency, initCurrency } = currencySlice.actions;
+export default currencySlice.reducer;

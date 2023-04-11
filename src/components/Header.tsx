@@ -7,36 +7,54 @@ import {
 import Link from "next/link";
 import CurrencySelector from "./CurrencySelector";
 
-export default function Header() {
+import { useAppSelector } from "@/redux/hooks";
+import Heading from "./Heading";
+import { Skeleton } from "./Skeleton";
+
+interface IHeaderProps {
+  siteTitle: string;
+}
+
+export default function Header({ siteTitle }: IHeaderProps) {
+  const { error, exchangeRates, pending } = useAppSelector(
+    (state) => state.exhcangeRateSlice
+  );
+
   return (
-    <header className="w-full p-5 flex-col [&>*]:w-full [&>*]:flex [&>*]:justify-between [&>*]:items-center">
-      <div>
-        <Link href="/">Fakestore</Link>
-        <nav>
-          <ul className="flex [&>*]:ml-3 items-center">
-            <li>
-              <MagnifyingGlass />
-            </li>
-            <li>
+    <header className="w-full flex justify-between items-center p-5 z-50">
+      <Link href="/">
+        <Heading tagName="h1">{siteTitle}</Heading>
+      </Link>
+      <nav className="text-2xl">
+        <ul className="flex [&>*]:ml-3 items-center">
+          {/* <li>
+            <MagnifyingGlass />
+          </li> */}
+
+          <li>
+            {pending && !exchangeRates ? (
+              <Skeleton className="w-20" />
+            ) : (
               <CurrencySelector />
-            </li>
-            <li>
+            )}
+          </li>
+          {/* <li>
+            <Link href="/wishlist">
               <Heart />
-            </li>
-            <li>
+            </Link>
+          </li>
+          <li>
+            <Link href="/cart">
               <ShoppingCart />
-            </li>
-            <li>
+            </Link>
+          </li>
+          <li>
+            <Link href="/account">
               <User />
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div className="bg-slate-300">
-        <nav>
-          <ul>category</ul>
-        </nav>
-      </div>
+            </Link>
+          </li> */}
+        </ul>
+      </nav>
     </header>
   );
 }

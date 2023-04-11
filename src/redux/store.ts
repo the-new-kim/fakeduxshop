@@ -1,15 +1,19 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
-import productSlice from "@/redux/slices/productSlice";
-import categorySlice from "@/redux/slices/categorySlice";
-import currencySlice from "./slices/currencySlice";
+import currencyReducer from "./slices/currencySlice";
+import exchangeRatesReducer from "./slices/exchangeRatesSlice";
+import cartReducer from "./slices/cartSlice";
 
-export interface RootState {
-  products: ReturnType<typeof productSlice.reducer>;
-  categories: ReturnType<typeof categorySlice.reducer>;
-  currency: ReturnType<typeof currencySlice.reducer>;
-  incomingPreloadState?: RootState;
-}
+const reducer = {
+  currencySlice: currencyReducer,
+  exhcangeRateSlice: exchangeRatesReducer,
+  cartSlice: cartReducer,
+};
 
+const store = configureStore({
+  reducer,
+});
+
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 export type AppThunk<ReturnType = void> = ThunkAction<
   ReturnType,
@@ -18,28 +22,4 @@ export type AppThunk<ReturnType = void> = ThunkAction<
   Action<string>
 >;
 
-const reducer = {
-  products: productSlice.reducer,
-  categories: categorySlice.reducer,
-  currency: currencySlice.reducer,
-};
-
-let store = configureStore({
-  reducer,
-  //   middleware: (getDefaultMiddlware) => getDefaultMiddlware(),
-});
-
-const getStore = (incomingPreloadState?: RootState) => {
-  if (incomingPreloadState) {
-    store = configureStore({
-      reducer,
-      preloadedState: incomingPreloadState,
-      //   middleware: (getDefaultMiddlware) =>
-      //     getDefaultMiddlware().concat(currencyMiddlware),
-      // 👆 ⚠️ Typescript Error
-    });
-  }
-  return store;
-};
-
-export default getStore;
+export default store;
