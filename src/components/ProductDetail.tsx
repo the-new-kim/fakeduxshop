@@ -78,7 +78,7 @@ export default function ProductDetail({
             initial={{ y: "100%" }}
             animate={{ y: "0%" }}
             exit={{ y: "100%" }}
-            className="flex sm:hidden fixed bottom-0 left-0 p-5 justify-between items-center w-full bg-white z-50"
+            className="flex sm:hidden fixed bottom-0 left-0 p-5 justify-between items-center w-full bg-[rgb(var(--background-end-rgb))] border-[rgb(var(--foreground-rgb))] z-50"
           >
             <Heading tagName="h3">{product.title}</Heading>
             <Button className="whitespace-nowrap">Add to Cart</Button>

@@ -17,7 +17,7 @@ export default function CurrencySelector() {
   return (
     <>
       <select
-        className="bg-transparent border-none"
+        className="bg-[rgb(var(--background-end-rgb))] border-none"
         value={currencyState}
         onChange={onChange}
       >
